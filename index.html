@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo Fray Servando</title>
+    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+<!-- ENCABEZADO -->
+<header class="encabezado">
+
+    <div class="logo-titulo">
+        <h1>Biblioteca Central Del Estado Fray Servando Teresa De Mier</h1>
+        <p>Catalogo de la Biblioteca</p>
+    </div>
+
+    <div class="acciones-header">
+
+        
+<div class="acciones-header">
+
+    <div class="buscador">
+        <input
+            type="text"
+            id="buscador"
+            placeholder="Buscar libro, autor o materia..."
+            onkeyup="buscarLibro()">
+
+        <button onclick="buscarLibro()">🔍</button>
+    </div>
+
+    <!-- BOTÓN DE SOLICITUDES -->
+    <button class="btn-solicitud" onclick="abrirSolicitudes()">
+        Solicitar libro
+    </button>
+
+    <!-- BOTÓN ADM -->
+    <button class="btn-adm" onclick="abrirLogin()">
+        ADM
+    </button>
+
+</div>
+
+
+</header>
+
+
+<!-- CONTENIDO PRINCIPAL -->
+<main>
+
+    <section class="bienvenida">
+
+        <h2>Catálogo de libros</h2>
+
+        <p>
+            Explora nuestra colección y encuentra el libro que estás buscando.
+        </p>
+
+
+        <!-- TEMAS POR RANGO DE SERIE -->
+        <div class="botones-temas">
+
+            <button onclick="filtrarTema('0-99')">
+                0–99
+            </button>
+
+            <button onclick="filtrarTema('100-199')">
+                100–199
+            </button>
+
+            <button onclick="filtrarTema('200-299')">
+                200–299
+            </button>
+
+            <button onclick="filtrarTema('300-399')">
+                300–399
+            </button>
+
+            <button onclick="filtrarTema('400-499')">
+                400–499
+            </button>
+
+            <button onclick="filtrarTema('500-599')">
+                500–599
+            </button>
+
+            <button onclick="filtrarTema('600-699')">
+                600–699
+            </button>
+
+            <button onclick="filtrarTema('700-799')">
+                700–799
+            </button>
+
+            <button onclick="filtrarTema('800-899')">
+                800–899
+            </button>
+
+            <button onclick="filtrarTema('900-999')">
+                900–999
+            </button>
+            
+            <button onclick="mostrarMasBuscados()">
+            Libros más buscados
+        </button>
+
+            <button class="btn-todos" onclick="mostrarTodos()">
+                Mostrar todos
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- CATÁLOGO -->
+    <section id="catalogo" class="catalogo"></section>
+
+    <p id="sin-resultados" class="sin-resultados">
+        No se encontraron libros.
+    </p>
+
+</main>
+
+
+<!-- MODAL DEL LIBRO -->
+<div id="ventana-libro" class="ventana-libro">
+
+    <div class="contenido-ventana">
+
+        <button class="cerrar" onclick="cerrarLibro()">
+            &times;
+        </button>
+
+        <img
+            id="imagen-modal"
+            src=""
+            alt="Libro">
+
+        <div class="info-modal">
+
+            <h2 id="titulo-modal"></h2>
+
+            <p>
+                <strong>Número de serie:</strong>
+                <span id="numero-serie-modal"></span>
+            </p>
+
+            <p>
+                <strong>Autor:</strong>
+                <span id="autor-modal"></span>
+            </p>
+
+            <p>
+                <strong>Materia:</strong>
+                <span id="materia-modal"></span>
+            </p>
+
+            <p>
+                <strong>Tema:</strong>
+                <span id="tema-modal"></span>
+            </p>
+
+            <p class="contacto-modal">
+                Contacta al siguiente número para ver la disponibilidad:
+                <strong>81 2020 9237</strong>
+            </p>
+
+            <p>
+                <strong>Descripción:</strong>
+            </p>
+
+            <p id="descripcion-modal"></p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- VENTANA DE SOLICITUDES -->
+<div id="ventana-solicitudes" class="ventana-solicitudes">
+
+    <div class="contenido-solicitudes">
+
+        <button class="cerrar" onclick="cerrarSolicitudes()">
+            &times;
+        </button>
+
+        <h2>Solicitar un libro</h2>
+
+        <p>Completa los datos del libro que deseas solicitar.</p>
+
+        <form id="formulario-solicitud">
+
+            <label for="solicitud-titulo">Título del libro</label>
+            <input
+                type="text"
+                id="solicitud-titulo"
+                maxlength="250"
+                required>
+
+            <label for="solicitud-autor">Autor</label>
+            <input
+                type="text"
+                id="solicitud-autor"
+                maxlength="200"
+                required>
+
+            <label for="solicitud-editorial">Editorial</label>
+            <input
+                type="text"
+                id="solicitud-editorial"
+                maxlength="200">
+
+            <label for="solicitud-comentarios">Comentarios</label>
+            <textarea
+                id="solicitud-comentarios"
+                maxlength="1000"
+                rows="4"
+                placeholder="Información adicional..."></textarea>
+
+            <p id="mensaje-solicitud"></p>
+
+            <button type="submit" class="btn-enviar-solicitud">
+                Enviar solicitud
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- LOGIN ADM -->
+<div id="ventana-login" class="ventana-login">
+
+    <div class="contenido-login">
+
+        <button class="cerrar" onclick="cerrarLogin()">
+            &times;
+        </button>
+
+
+        <div class="icono-login">
+            
+        </div>
+
+        <h2>Acceso ADM</h2>
+
+        <p>
+            Ingresa tus datos para administrar el catálogo.
+        </p>
+
+        <form onsubmit="iniciarSesion(event)">
+
+            <label for="usuario">
+                Usuario
+            </label>
+
+            <input
+                type="text"
+                id="usuario"
+                placeholder="Usuario"
+                required>
+
+
+            <label for="contrasena">
+                Contraseña
+            </label>
+
+            <input
+                type="password"
+                id="contrasena"
+                placeholder="Contraseña"
+                required>
+
+
+            <p
+                id="mensaje-login"
+                class="mensaje-login">
+            </p>
+
+
+            <button
+                type="submit"
+                class="btn-entrar">
+                Entrar
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- PANEL ADMIN -->
+<div id="ventana-admin" class="ventana-admin">
+
+    <div class="contenido-admin">
+
+        <div class="admin-header">
+
+            <div>
+                <h2>Panel de Administración</h2>
+
+                <p>
+                    Administra los libros del catálogo.
+                </p>
+            </div>
+
+            <button
+                class="btn-cerrar-admin"
+                onclick="cerrarAdmin()">
+                Cerrar sesión
+            </button>
+            
+
+        </div>
+
+
+        <!-- FORMULARIO -->
+        <section class="formulario-admin">
+
+            <h3 id="titulo-formulario">
+                Agregar nuevo libro
+            </h3>
+
+            <input
+                type="hidden"
+                id="indice-libro">
+
+
+            <div class="campos-formulario">
+
+                <div class="campo">
+
+                    <label for="admin-titulo">
+                        Título
+                    </label>
+
+                    <input
+                        type="text"
+                        id="admin-titulo"
+                        placeholder="Título del libro">
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label for="admin-autor">
+                        Autor
+                    </label>
+
+                    <input
+                        type="text"
+                        id="admin-autor"
+                        placeholder="Autor">
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label for="admin-materia">
+                        Materia
+                    </label>
+
+                    <input
+                        type="text"
+                        id="admin-materia"
+                        placeholder="Materia">
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label for="admin-serie">
+                        Número de serie
+                    </label>
+
+                    <input
+                        type="text"
+                        id="admin-serie"
+                        placeholder="Ejemplo: 100.1ad">
+
+                    <small class="ayuda-serie">
+                        El tema se detectará automáticamente.
+                    </small>
+
+                </div>
+
+
+                <div class="campo campo-completo">
+
+                    <label for="admin-imagen">
+                        URL de imagen
+                    </label>
+
+                    <input
+                        type="url"
+                        id="admin-imagen"
+                        placeholder="https://...">
+
+                </div>
+
+
+                <div class="campo campo-completo">
+
+                    <label for="admin-descripcion">
+                        Descripción
+                    </label>
+
+                    <textarea
+                        id="admin-descripcion"
+                        rows="4"
+                        placeholder="Descripción del libro..."></textarea>
+
+                </div>
+
+            </div>
+
+
+            <div class="botones-formulario">
+
+                <button
+                    class="btn-guardar"
+                    onclick="guardarLibro()">
+                    💾 Guardar libro
+                </button>
+
+                <button
+                    class="btn-cancelar"
+                    onclick="cancelarEdicion()">
+                    Cancelar
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- BUSCADOR ADMIN -->
+        <section class="lista-admin">
+
+            <h3>
+                Buscar libros
+            </h3>
+
+
+            <div class="buscador-admin">
+
+                <input
+                    type="text"
+                    id="buscador-admin"
+                    placeholder="Buscar libro, autor, materia o serie..."
+                    onkeyup="buscarLibroAdmin()">
+
+                <button onclick="buscarLibroAdmin()">
+                    🔍
+                </button>
+
+            </div>
+
+
+            <div id="lista-libros-admin"></div>
+            
+<!-- SOLICITUDES DE LIBROS -->
+<section class="lista-admin">
+
+    <h3>📚 Solicitudes de libros</h3>
+
+    <button
+     type="button"
+        class="btn-solicitud"
+        onclick="cargarSolicitudes()">
+        Ver solicitudes recibidas
+    </button>
+      <div id="lista-solicitudes-admin">
+    </div>
+
+<section class="lista-admin">
+
+    <!-- Isla flotante de estadísticas -->
+    <button
+        class="btn-estadisticas"
+        onclick="mostrarEstadisticas()">
+        Estadísticas de libros
+    </button>
+
+</section>
+
+<!-- Sección independiente de gráficas -->
+<div id="seccion-estadisticas" class="seccion-estadisticas">
+
+    <div class="encabezado-estadisticas">
+        <h2>Centro de estadísticas</h2>
+
+      <button
+    class="btn-cerrar-estadisticas"
+    onclick="cerrarEstadisticas()">
+    ✖ Cerrar
+</button>
+    </div>
+
+    <div class="tarjeta-total">
+        <span>Total de aperturas</span>
+        <h2 id="total-aperturas">0</h2>
+        <p>Consultas registradas en la biblioteca</p>
+    </div>
+
+    <div class="tarjeta-grafica">
+        <h3>Libros más vistos</h3>
+        <div class="contenedor-grafica">
+            <canvas id="grafica-barras"></canvas>
+        </div>
+    </div>
+
+    <div class="tarjeta-grafica">
+        <h3>Distribución de visitas</h3>
+        <div class="contenedor-grafica contenedor-circular">
+            <canvas id="grafica-circular"></canvas>
+        </div>
+    </div>
+
+    <div class="tarjeta-grafica">
+        <h3>Materias más consultadas</h3>
+        <div class="contenedor-grafica">
+            <canvas id="grafica-materias"></canvas>
+        </div>
+    </div>
+
+</div>
+</button>
+
+    <div id="lista-solicitudes-admin"></div>
+
+</section>
+
+
+        </section>
+
+    </div>
+
+</div>
+<!-- REDES SOCIALES FLOTANTES -->
+<div class="redes-flotantes">
+
+    <a href="https://www.facebook.com/bcnlmx"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="red-social facebook"
+       aria-label="Facebook">
+        <i class="fa-brands fa-facebook-f"></i>
+    </a>
+
+    <a href="https://www.instagram.com/bcnl_oficial/"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="red-social instagram"
+       aria-label="Instagram">
+        <i class="fa-brands fa-instagram"></i>
+    </a>
+
+    <a href="https://www.threads.com/@bcnl_oficial"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="red-social threads"
+       aria-label="Threads">
+        <i class="fa-brands fa-threads"></i>
+    </a>
+
+    <a href="https://www.tiktok.com/@bce_nlmx"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="red-social tiktok"
+       aria-label="TikTok">
+        <i class="fa-brands fa-tiktok"></i>
+        
+    </a>
+        <a href="https://wa.me/message/LV32QP43RX5EO1"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="red-social whatsapp"
+        aria-label="WhatsApp">
+            <i class="fa-brands fa-whatsapp"></i>
+        </a>
+</div>
+<!-- MASCOTA DE LA BIBLIOTECA -->
+<div class="mascota-lateral">
+    <img src="leo.png" alt="Leo, mascota de la biblioteca">
+</div>
+
+<!-- FOOTER -->
+<footer>
+
+    <p>
+        © 2026 Catálogo Fray Servando
+    </p>
+
+</footer>
+
+
+<script src="script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>
